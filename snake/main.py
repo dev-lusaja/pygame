@@ -2,11 +2,11 @@ import pygame
 import tkinter as tk
 from tkinter import messagebox
 
-from snake.helpers import random_position
-from snake.shapes.snake import Snake
-from snake.shapes.snack import Snack
-from snake.shapes.board import Board
-from snake.shapes.obstacle import Obstacle
+from helpers import random_position
+from shapes.snake import Snake
+from shapes.snack import Snack
+from shapes.board import Board
+from shapes.obstacle import Obstacle
 
 
 board = Board()

@@ -1,4 +1,4 @@
-.PHONY: soccer snake
+.PHONY: soccer snake breakout
 
 venv-create:
 	python3 -m venv venv
@@ -11,3 +11,6 @@ soccer:
 
 snake:
 	venv/bin/python3 snake/main.py
+
+breakout:
+	venv/bin/python3 breakout/main.py
