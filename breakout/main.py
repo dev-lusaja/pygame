@@ -27,7 +27,7 @@ class BreakOut:
         wall.create(board.width)
 
         ball = Ball()
-        ball.initial_position((board.width // 2, board.height // 3))
+        ball.initial_position(board.width, board.height)
 
         bar = Bar()
         bar.initial_position((board.width // 2, board.height - 50))
@@ -35,10 +35,10 @@ class BreakOut:
         game_over_text = Text('Game Over', COLOR_WHITE, COLOR_BLACK).center(board.width, board.height)
         pause_text = Text('Pause', COLOR_WHITE, COLOR_BLACK).center(board.width, board.height)
         win_text = Text('You win !!!', COLOR_GREEN, COLOR_BLACK).center(board.width, board.height)
-
+        clock = pygame.time.Clock()
         while self.running:
             # fps
-            board.clock.tick(60)
+            clock.tick(60)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -50,14 +50,10 @@ class BreakOut:
                         bar.rectangle = bar.rectangle.move(-bar.speed, MIN_HEIGHT)
                     if event.key == pygame.K_RIGHT:
                         bar.rectangle = bar.rectangle.move(bar.speed, MIN_HEIGHT)
-                    if event.key == pygame.K_r:
-                        self.start()
-                        pygame.quit()
                     if event.key == pygame.K_SPACE:
                         self.pause = not self.pause
 
             if not self.pause:
-
                 # rebound ball
                 ball.rebound()
 
@@ -72,7 +68,6 @@ class BreakOut:
 
                 # ball hit the wall
                 wall.collides_with_ball(ball)
-
                 # screen
                 board.screen.fill(COLOR_BLACK)
 
@@ -84,7 +79,8 @@ class BreakOut:
                     board.screen.blit(win_text.surface, win_text.rectangle)
                 elif ball.overshoot(board.height):
                     # game over
-                    board.screen.blit(game_over_text.surface, game_over_text.rectangle)
+                    ball.rectangle.center = ball.calculate_position(board.width, board.height)
+                    # board.screen.blit(game_over_text.surface, game_over_text.rectangle)
 
                 # draw objects
                 board.screen.blit(bar.surface, bar.rectangle)

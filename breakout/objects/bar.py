@@ -22,14 +22,14 @@ class Bar(Shape):
         # ball hit bar
         if self.rectangle.colliderect(ball.rectangle) == 1:
             if self.rectangle.topleft > ball.rectangle.bottomright:
-                ball.position[0] = -ball.position[0] + 2
+                ball.collide(0)
             elif self.rectangle.topright < ball.rectangle.bottomleft:
-                ball.position[0] = -ball.position[0] + 2
+                ball.collide(0)
             elif self.rectangle.y > ball.rectangle.y:
-                ball.position[1] = -ball.position[1]
+                ball.collide(1)
 
     def control_sides(self, max_width):
         if self.rectangle.left < MIN_WIDTH:
-                self.rectangle = self.rectangle.move(self.speed, MIN_HEIGHT)
+            self.rectangle = self.rectangle.move(self.speed, MIN_HEIGHT)
         if self.rectangle.right > max_width:
             self.rectangle = self.rectangle.move(-self.speed, MIN_HEIGHT)
