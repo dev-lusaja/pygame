@@ -92,6 +92,7 @@ class BreakOut:
 
 
 if __name__ == '__main__':
+    pygame.mixer.init(22100, -16, 2, 64)  # fix for sound
     pygame.init()
     breakOut = BreakOut()
     breakOut.start()

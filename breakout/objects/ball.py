@@ -1,15 +1,19 @@
+import os
 from random import randint
+
+import pygame
 
 from objects.constants import MIN_HEIGHT, MIN_WIDTH
 from objects.shape import Shape
 
 
 class Ball(Shape):
-    speed = 8
+    speed = 6
     position = [speed, speed]  # x, y
 
     def __init__(self):
         Shape.__init__(self, 'ball.png')
+        self.set_sound('ballCollide.wav')
 
     def overshoot(self, limit):
         return self.rectangle.bottom > limit
@@ -28,6 +32,7 @@ class Ball(Shape):
         self.rectangle.move_ip(position)
 
     def collide(self, axis):
+        self.sound.play(0)
         self.position[axis] = -self.position[axis]
 
     @staticmethod
