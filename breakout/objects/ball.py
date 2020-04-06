@@ -18,7 +18,7 @@ class Ball(Shape):
     def control_sides(self, max_width):
         if self.rectangle.left < MIN_WIDTH or self.rectangle.right > max_width:
             self.collide(0)  # x
-        if self.rectangle.top < MIN_HEIGHT:
+        elif self.rectangle.top < MIN_HEIGHT:
             self.collide(1)  # y
 
     def rebound(self):
@@ -34,4 +34,4 @@ class Ball(Shape):
 
     @staticmethod
     def calculate_position(width, height):
-        return randint(1, width), height // 3
+        return randint(1, width - 1), height // 3

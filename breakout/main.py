@@ -24,7 +24,6 @@ class BreakOut:
 
         block = Block()
         block_red = BlockRed()
-        block_surfaces = [block_red]
         wall = Wall(block)
         wall.create(board.width)
 
