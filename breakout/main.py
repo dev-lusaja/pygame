@@ -1,3 +1,4 @@
+import random
 import sys
 import pygame
 
@@ -5,7 +6,7 @@ from objects.constants import COLOR_WHITE, COLOR_BLACK, COLOR_GREEN, MIN_HEIGHT
 from objects.board import Board
 from objects.ball import Ball
 from objects.bar import Bar
-from objects.block import Block
+from objects.block import Block, BlockRed
 from objects.text import Text
 from objects.wall import Wall
 
@@ -22,7 +23,8 @@ class BreakOut:
         board = Board()
 
         block = Block()
-
+        block_red = BlockRed()
+        block_surfaces = [block_red]
         wall = Wall(block)
         wall.create(board.width)
 
@@ -71,8 +73,8 @@ class BreakOut:
                 # screen
                 board.screen.fill(COLOR_BLACK)
 
-                for blck in wall.blocks:
-                    board.screen.blit(block.surface, blck)
+                for block_in_wall in wall.blocks:
+                    board.screen.blit(block_red.surface, block_in_wall)
 
                 if len(wall.blocks) == 0:
                     # win

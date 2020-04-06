@@ -1,7 +1,4 @@
-import os
 from random import randint
-
-import pygame
 
 from objects.constants import MIN_HEIGHT, MIN_WIDTH
 from objects.shape import Shape
