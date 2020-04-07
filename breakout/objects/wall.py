@@ -5,12 +5,12 @@ class Wall:
     def __init__(self, block):
         self.block = block
 
-    def create(self, width, level=2):
+    def create(self, board):
         self.blocks = []
-        x, y = 0, 60
-        cant = (width // self.block.size) * level
+        x, y = 0, board.header
+        cant = (board.width // self.block.size) * board.level
         for block in range(cant):
-            if x == width:
+            if x == board.width:
                 x = 0
                 y += self.block.size
             self.blocks.append(self.block.rectangle)
@@ -28,3 +28,4 @@ class Wall:
             else:
                 ball.collide(1)  # y
             del self.blocks[index]
+            return True

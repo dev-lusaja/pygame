@@ -1,6 +1,3 @@
-from random import randint
-from time import sleep
-
 import pygame
 
 from objects.constants import MIN_WIDTH, MIN_HEIGHT
@@ -27,6 +24,10 @@ class Bar(Shape):
                 ball.collide(0)
             elif self.rectangle.y > ball.rectangle.y:
                 ball.collide(1)
+            elif self.rectangle.left < ball.rectangle.right or\
+                    self.rectangle.right < ball.rectangle.left:
+                ball.collide(1)
+                ball.collide(0)
 
     def control_sides(self, max_width):
         if self.rectangle.left < MIN_WIDTH:

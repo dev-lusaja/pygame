@@ -1,4 +1,3 @@
-import random
 import sys
 import pygame
 
@@ -25,7 +24,7 @@ class BreakOut:
         block = Block()
         block_red = BlockRed()
         wall = Wall(block)
-        wall.create(board.width)
+        wall.create(board)
 
         ball = Ball()
         ball.initial_position(board.width, board.height)
@@ -35,11 +34,12 @@ class BreakOut:
 
         game_over_text = Text('Game Over', COLOR_WHITE, COLOR_BLACK).center(board.width, board.height)
         pause_text = Text('Pause', COLOR_WHITE, COLOR_BLACK).center(board.width, board.height)
-        win_text = Text('You win !!!', COLOR_GREEN, COLOR_BLACK).center(board.width, board.height)
+        win_text = Text('Next Level !!!', COLOR_GREEN, COLOR_BLACK).center(board.width, board.height)
         clock = pygame.time.Clock()
         while self.running:
             # fps
             clock.tick(60)
+            header_surface, header_rectangle = board.get_header()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -54,42 +54,54 @@ class BreakOut:
                     if event.key == pygame.K_SPACE:
                         self.pause = not self.pause
 
-            if not self.pause:
-                # rebound ball
-                ball.rebound()
+            if board.lives > 0:
+                if not self.pause:
 
-                # control ball sides
-                ball.control_sides(board.width)
+                    # rebound ball
+                    ball.rebound()
 
-                # ball hit bar
-                bar.hits_the_ball(ball)
+                    # control ball sides
+                    ball.control_sides(board)
 
-                # control bar sides
-                bar.control_sides(board.width)
+                    # ball hit bar
+                    bar.hits_the_ball(ball)
 
-                # ball hit the wall
-                wall.collides_with_ball(ball)
-                # screen
-                board.screen.fill(COLOR_BLACK)
+                    # control bar sides
+                    bar.control_sides(board.width)
 
-                for block_in_wall in wall.blocks:
-                    board.screen.blit(block_red.surface, block_in_wall)
+                    # ball hit the wall
+                    if wall.collides_with_ball(ball):
+                        board.score += 10
+                    # screen
+                    board.screen.fill(COLOR_BLACK)
 
-                if len(wall.blocks) == 0:
-                    # win
-                    board.screen.blit(win_text.surface, win_text.rectangle)
-                elif ball.overshoot(board.height):
-                    # game over
-                    ball.rectangle.center = ball.calculate_position(board.width, board.height)
-                    # board.screen.blit(game_over_text.surface, game_over_text.rectangle)
+                    for block_in_wall in wall.blocks:
+                        board.screen.blit(block_red.surface, block_in_wall)
 
-                # draw objects
-                board.screen.blit(bar.surface, bar.rectangle)
-                board.screen.blit(ball.surface, ball.rectangle)
+                    # next level
+                    if len(wall.blocks) == 0:
+                        pygame.time.wait(100)
+                        board.next_level()
+                        wall.create(board)
+                        ball.rectangle.center = ball.calculate_position(board.width, board.height)
+                    # reduce live
+                    elif ball.overshoot(board.height):
+                        board.lives -= 1
+                        ball.rectangle.center = ball.calculate_position(board.width, board.height)
+
+                    # draw objects
+                    board.screen.blit(bar.surface, bar.rectangle)
+                    board.screen.blit(ball.surface, ball.rectangle)
+                else:
+                    # pause
+                    board.screen.blit(pause_text.surface, pause_text.rectangle)
             else:
-                # pause
-                board.screen.blit(pause_text.surface, pause_text.rectangle)
-            pygame.display.flip()
+                # game over
+                board.screen.blit(game_over_text.surface, game_over_text.rectangle)
+
+            # header
+            board.screen.blit(header_surface, header_rectangle)
+            pygame.display.update()
 
 
 if __name__ == '__main__':

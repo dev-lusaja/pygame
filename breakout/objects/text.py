@@ -2,8 +2,8 @@ import pygame
 
 
 class Text:
-    def __init__(self, text, font_color, background_color):
-        font = pygame.font.Font('freesansbold.ttf', 32)
+    def __init__(self, text, font_color, background_color, size=32):
+        font = pygame.font.Font('freesansbold.ttf', size)
         self.surface = font.render(text, True, font_color, background_color)
         self.rectangle = self.surface.get_rect()
 
