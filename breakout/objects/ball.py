@@ -33,4 +33,4 @@ class Ball(Shape):
         self.position[axis] = -self.position[axis]
 
     def calculate_position(self, board, block_size):
-        return randint(self.size, board.width - self.size), (block_size * board.level) + board.header + 1
+        return randint(self.size, board.width - self.size), (block_size * board.level) + board.header + (block_size // 2)

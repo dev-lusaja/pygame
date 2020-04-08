@@ -83,8 +83,8 @@ class BreakOut:
                     if len(wall.blocks) == 0:
                         pygame.time.wait(100)
                         board.next_level()
-                        wall.create(board)
                         ball.rectangle.center = ball.calculate_position(board, block.size)
+                        wall.create(board)
                     # reduce live
                     elif ball.overshoot(board.height):
                         board.lives -= 1
