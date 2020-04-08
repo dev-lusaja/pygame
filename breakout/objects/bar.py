@@ -28,6 +28,7 @@ class Bar(Shape):
                     self.rectangle.right < ball.rectangle.left:
                 ball.collide(1)
                 ball.collide(0)
+            return True
 
     def control_sides(self, max_width):
         if self.rectangle.left < MIN_WIDTH:

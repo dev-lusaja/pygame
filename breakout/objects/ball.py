@@ -13,7 +13,6 @@ class Ball(Shape):
         self.set_sound('ballCollide.wav')
 
     def overshoot(self, limit):
-
         return self.rectangle.bottom > limit
 
     def control_sides(self, board):
@@ -25,14 +24,13 @@ class Ball(Shape):
     def rebound(self):
         self.rectangle = self.rectangle.move(self.position)
 
-    def initial_position(self, width, height):
-        position = self.calculate_position(width, height)
+    def initial_position(self, board, block_size):
+        position = self.calculate_position(board, block_size)
         self.rectangle.move_ip(position)
 
     def collide(self, axis):
         self.sound.play(0)
         self.position[axis] = -self.position[axis]
 
-    @staticmethod
-    def calculate_position(width, height):
-        return randint(20, width - 20), height // 3
+    def calculate_position(self, board, block_size):
+        return randint(self.size, board.width - self.size), (block_size * board.level) + board.header + 1

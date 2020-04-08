@@ -27,7 +27,7 @@ class BreakOut:
         wall.create(board)
 
         ball = Ball()
-        ball.initial_position(board.width, board.height)
+        ball.initial_position(board, block.size)
 
         bar = Bar()
         bar.initial_position((board.width // 2, board.height - 50))
@@ -40,6 +40,9 @@ class BreakOut:
             # fps
             clock.tick(60)
             header_surface, header_rectangle = board.get_header()
+
+            # screen
+            board.screen.fill(COLOR_BLACK)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -72,8 +75,6 @@ class BreakOut:
                     # ball hit the wall
                     if wall.collides_with_ball(ball):
                         board.score += 10
-                    # screen
-                    board.screen.fill(COLOR_BLACK)
 
                     for block_in_wall in wall.blocks:
                         board.screen.blit(block_red.surface, block_in_wall)
@@ -83,11 +84,11 @@ class BreakOut:
                         pygame.time.wait(100)
                         board.next_level()
                         wall.create(board)
-                        ball.rectangle.center = ball.calculate_position(board.width, board.height)
+                        ball.rectangle.center = ball.calculate_position(board, block.size)
                     # reduce live
                     elif ball.overshoot(board.height):
                         board.lives -= 1
-                        ball.rectangle.center = ball.calculate_position(board.width, board.height)
+                        ball.rectangle.center = ball.calculate_position(board, block.size)
 
                     # draw objects
                     board.screen.blit(bar.surface, bar.rectangle)
