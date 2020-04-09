@@ -34,7 +34,7 @@ class BreakOut:
 
         game_over_text = Text('Game Over', COLOR_WHITE, COLOR_BLACK).center(board.width, board.height)
         pause_text = Text('Pause', COLOR_WHITE, COLOR_BLACK).center(board.width, board.height)
-        win_text = Text('Next Level !!!', COLOR_GREEN, COLOR_BLACK).center(board.width, board.height)
+        win_text = Text('You win !!!', COLOR_GREEN, COLOR_BLACK).center(board.width, board.height)
         clock = pygame.time.Clock()
         while self.running:
             # fps
@@ -80,17 +80,20 @@ class BreakOut:
                         board.screen.blit(block_red.surface, block_in_wall)
 
                     # next level
-                    if len(wall.blocks) == 0:
+                    if len(wall.blocks) == 0 and board.level is not board.final_level:
                         pygame.time.wait(100)
                         board.next_level()
                         ball.rectangle.center = ball.calculate_position(board, block.size)
                         wall.create(board)
+                    elif len(wall.blocks) == 0 and board.level is board.final_level:
+                        # you win
+                        board.screen.blit(win_text.surface, win_text.rectangle)
                     # reduce live
                     elif ball.overshoot(board.height):
                         board.lives -= 1
                         ball.rectangle.center = ball.calculate_position(board, block.size)
 
-                    # draw objects
+                    # draw bar and ball
                     board.screen.blit(bar.surface, bar.rectangle)
                     board.screen.blit(ball.surface, ball.rectangle)
                 else:

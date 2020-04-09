@@ -8,6 +8,7 @@ class Board:
     width, height = 400, 650
     header = 20
     level = 1
+    final_level = 10
     __lives = 3
     __score = 0
     __title = 'BreakOut'
